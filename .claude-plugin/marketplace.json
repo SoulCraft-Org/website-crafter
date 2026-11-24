@@ -1,0 +1,17 @@
+{
+  "name": "website-crafter",
+  "description": "Website Crafter: craft your own website with Claude, from one plugin.",
+  "owner": {
+    "name": "SoulCraft-Org",
+    "url": "https://github.com/SoulCraft-Org"
+  },
+  "plugins": [
+    {
+      "name": "website-crafter",
+      "source": "./plugin",
+      "description": "The method for a fast, quiet website: each page one role and one signature move, a start-up JavaScript budget, no third-party requests, motion a pause stills, a words lint, and stage before ship.",
+      "category": "development",
+      "license": "Apache-2.0"
+    }
+  ]
+}

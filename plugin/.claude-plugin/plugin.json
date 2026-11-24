@@ -1,0 +1,13 @@
+{
+  "name": "website-crafter",
+  "version": "0.1.0",
+  "description": "Craft your own website with Claude: page roles, a start-up budget, same-origin pages, pausable motion, a words lint and staging before ship.",
+  "author": {
+    "name": "SoulCraft-Org",
+    "url": "https://github.com/SoulCraft-Org"
+  },
+  "homepage": "https://github.com/SoulCraft-Org/website-crafter",
+  "repository": "https://github.com/SoulCraft-Org/website-crafter",
+  "license": "Apache-2.0",
+  "keywords": ["website", "web-performance", "accessibility", "static-site", "playwright"]
+}
