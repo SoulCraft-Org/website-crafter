@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Fixture site</title>
+<meta name="description" content="A tiny site the page tests run against in CI.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/styles.css">
+<script>
+  // Before first paint: a stored choice, or a visitor who asks for reduced motion, starts the page still.
+  try {
+    const stored = localStorage.getItem("motion");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (stored === "paused" || (stored === null && reduce)) document.documentElement.dataset.motion = "paused";
+  } catch {}
+</script>
+<script type="module" src="/motion.js"></script>
+</head>
+<body>
+<header><a href="/">Home</a> <a href="/about/">About</a> <button type="button" aria-pressed="false" data-motion-toggle>Pause motion</button></header>
+<main>
+<h1>One page, one job</h1>
+<p>This page has one role. Its signature move is the moving dot below.</p>
+<div class="spinner" aria-hidden="true"></div>
+<canvas id="demo" width="320" height="160" aria-label="A moving dot"></canvas>
+<p><img src="/dot.svg" width="64" height="64" alt="A dot" loading="lazy"></p>
+</main>
+<script type="module">
+  // The demo is not start-up code: it loads by import() when its canvas nears the screen.
+  const canvas = document.getElementById("demo");
+  new IntersectionObserver((entries, io) => {
+    if (!entries.some((e) => e.isIntersecting)) return;
+    io.disconnect();
+    import("/demo.js").then((m) => m.start(canvas));
+  }).observe(canvas);
+</script>
+</body>
+</html>

@@ -1,16 +1,16 @@
 {
  "id": "open",
  "name": "Open",
- "why": "A site's code, from a private repo to a public one anyone can fork",
- "ideal": "The public repo holds no secret, private path or reserved name, takes changes only by pull request, pins every action and answers issues fast.",
+ "why": "A site's public code, from each change it takes to each contributor it answers",
+ "ideal": "The public repo holds no secret or private data, takes changes only by pull request, pins every action and answers issues fast.",
  "sources": [
   {"title": "Starting an Open Source Project", "url": "https://opensource.guide/starting-a-project/", "date": "2026-11-24"},
   {"title": "GitHub Docs: Secure use reference", "url": "https://docs.github.com/en/actions/reference/security/secure-use", "date": "2026-11-24"},
   {"title": "GitHub Docs: Configuring issue templates for your repository", "url": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository", "date": "2026-11-24"}
  ],
- "critical_path": ["export", "intake", "answer"],
+ "critical_path": ["check", "intake", "answer"],
  "steps": [
-  {"id": "export", "name": "Export", "tools": ["The export tool", "The words lint"], "rule": "Every change reaches the public repo by pull request, after the export check.", "rule_ref": "https://github.com/SoulCraft-Org/website-crafter/blob/main/maps/README.md#open", "metric": "pull_requests.commits_via_pr", "icon": "repo"},
+  {"id": "check", "name": "Check", "tools": ["The pre-publish check", "The words lint"], "rule": "Every change reaches the public repo by pull request, after the pre-publish check.", "rule_ref": "https://github.com/SoulCraft-Org/website-crafter/blob/main/maps/README.md#open", "metric": "pull_requests.commits_via_pr", "icon": "repo"},
   {"id": "intake", "name": "Intake", "tools": ["Issue forms", "CONTRIBUTING, SECURITY and a code of conduct"], "rule": "Issue forms route each bug and quick fix; the open-repo files say how to help.", "rule_ref": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository", "metric": "issues.intake_ready", "icon": "mail"},
   {"id": "pin", "name": "Pin", "tools": ["Full commit SHAs", "Dependabot"], "rule": "Every action is pinned to a full commit SHA that Dependabot bumps.", "rule_ref": "https://docs.github.com/en/actions/reference/security/secure-use", "metric": "actions.pinned_share", "icon": "key"},
   {"id": "answer", "name": "Answer", "tools": ["The issue list", "A fix by pull request"], "rule": "Each issue closes by a merged fix or a reply within days.", "rule_ref": "https://opensource.guide/starting-a-project/", "metric": "issues.latest_close_hours", "icon": "clock"},

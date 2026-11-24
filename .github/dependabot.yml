@@ -11,3 +11,13 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+  # @playwright/test, which the page tests run on in CI.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 14
+    groups:
+      npm:
+        patterns: ["*"]
