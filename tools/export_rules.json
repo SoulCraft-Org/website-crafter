@@ -1,0 +1,16 @@
+{
+ "comment": "What tools/export_public.py refuses in a file it would copy into a public repo. refuse: one regex per shape of private data, matched per line; a match prints only the file, the line and the id, never the text. allow_email_domains: addresses at these domains are examples, not people. binary_ok: binary files by extension that are copied without a text scan; any other binary file is refused.",
+ "refuse": [
+  { "id": "email", "pattern": "[A-Za-z0-9._%+-]+@((?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,})", "why": "an email address" },
+  { "id": "home-path", "pattern": "(?:/Users/|/home/)[^/\\s\"'`]+|[A-Za-z]:\\\\Users\\\\", "why": "a path inside someone's home folder" },
+  { "id": "private-key", "pattern": "-----BEGIN [A-Z ]*PRIVATE KEY-----", "why": "a private key" },
+  { "id": "aws-key", "pattern": "\\b(?:AKIA|ASIA)[0-9A-Z]{16}\\b", "why": "an AWS access key" },
+  { "id": "github-token", "pattern": "\\b(?:gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{40,})", "why": "a GitHub token" },
+  { "id": "slack-token", "pattern": "\\bxox[abposr]-[A-Za-z0-9-]{10,}", "why": "a Slack token" },
+  { "id": "stripe-live-key", "pattern": "\\b[rs]k_live_[A-Za-z0-9]{16,}", "why": "a live Stripe key" },
+  { "id": "sk-key", "pattern": "\\bsk-(?:ant-|proj-)?[A-Za-z0-9_-]{24,}", "why": "an API key in the sk- shape" },
+  { "id": "google-key", "pattern": "\\bAIza[0-9A-Za-z_-]{35}\\b", "why": "a Google API key" }
+ ],
+ "allow_email_domains": ["example.com", "example.org", "example.net", "users.noreply.github.com"],
+ "binary_ok": [".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".ico", ".woff", ".woff2", ".mp4", ".webm", ".glb"]
+}

@@ -14,6 +14,7 @@ flowchart LR
 | Every commit | Sign off with `git commit -s` ([DCO](https://developercertificate.org/)) |
 | A starter | Edit its config and its README in one pull request: `bash tests/engine.sh` fails when their tables disagree |
 | A page test | Edit `templates/tests/`, and break the same rule once in `tests/fixture/bad/index.html`: CI fails when a spec passes there |
+| A guard or export rule | Add the rule and a known-good and a known-bad sample together: in `templates/hooks/guards.json`, or in `tools/export_public.py`'s self-test. A rule with no sample fails CI |
 | A map | Edit `maps/<id>.json` and its section in [maps/README.md](maps/README.md) together. Six steps at most, a rule of 20 words at most, dated sources, and a quality, a speed and a consumption step |
 | Every pull request | `ci / ci-ok` must pass. It runs the plugin check and its self-test, the voice lint, and the starters' tests |
 | Names and art | Never add the SoulCraft name, characters or art to a starter ([NOTICE](NOTICE)). Never add a secret, a private path or personal data |

@@ -51,6 +51,8 @@ jobs:
         python3 -I tools/check_plugin.py --self-test
         python3 -I tools/check_plugin.py
         bash tools/voice_lint.sh
+        python3 -I templates/hooks/guards.py --self-test
+        python3 -I tools/export_public.py --self-test
         # The starters against Git Crafter's engine at the pin above: seconds of work, so the short job on ubuntu-slim.
         bash tests/engine.sh
       # The page tests on the good fixture site, where every test passes, then on the bad one, where every test must fail.
