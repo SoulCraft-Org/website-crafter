@@ -24,7 +24,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | `generated` | Every Edit and Write | Blocks an edit to a file a tool writes, and names that tool | `guards.json` `generated` |
 | `staging` | Every Bash call | Blocks a whole-tree `git add` or `git stage` (`-A`, `-u`, `.`, `./`, `*`, `:/`), `git commit -a`, and `--amend` with no pathspec | Built in: `add-all`, `commit-all`, `amend` |
-| `deploy` | Every Bash call, and the MCP tools the matcher names | Asks the owner before a deploy, a rollback, a remote write or a secret change | `guards.json` `deploy` and `tools` |
+| `deploy` | Every Bash call, and the MCP tools the matcher names | Asks the owner before a deploy, rollback, remote write or secret change | `guards.json` `deploy` and `tools` |
 
 | Limit | So |
 | --- | --- |

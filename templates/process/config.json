@@ -1,5 +1,5 @@
 {
- "comment": "Website Crafter's Process page config for a website repo, from Git Crafter's starter (templates/process/config.json at v7.1.0). Copy it to quality/process/config.json and replace my-site (repos, repo_url, heading) and OWNER (repo_url). It is also the repo's maps file (docs.maps names it). It keeps the three library maps whose every step reads a tab the website quality starter keeps: delivery, deploy and code. Keys: Git Crafter actions/pages/action.yml; maps: pages/maps/README.md.",
+ "comment": "Website Crafter's Process page config for a website repo, from Git Crafter's starter (templates/process/config.json at v7.1.0). Copy it to quality/process/config.json and replace my-site (repos, repo_url, heading) and OWNER (repo_url). It is also the repo's maps file (docs.maps names it). It keeps the three library maps whose every step reads a tab the website quality starter keeps (delivery, deploy and code), and the four maps of Website Crafter's pack (media, stage, reveal and open), which quality/config.json pins. Keys: Git Crafter actions/pages/action.yml; maps: pages/maps/README.md.",
  "repos": [
   "my-site"
  ],
@@ -17,6 +17,18 @@
   },
   {
    "use": "code"
+  },
+  {
+   "use": "media"
+  },
+  {
+   "use": "stage"
+  },
+  {
+   "use": "reveal"
+  },
+  {
+   "use": "open"
   }
  ],
  "data": "quality/process/data/org.json",
