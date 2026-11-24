@@ -12,7 +12,8 @@ flowchart LR
 | A figure | Attribute it in its sentence, with the source and the date you read it, or label it a goal |
 | Writing | One idea per sentence, under about 30 words, no em dashes. `bash tools/voice_lint.sh` runs the lint CI runs |
 | Every commit | Sign off with `git commit -s` ([DCO](https://developercertificate.org/)) |
-| Every pull request | `ci / ci-ok` must pass. It runs the plugin check and its self-test, and the voice lint |
+| A starter | Edit its config and its README in one pull request: `bash tests/engine.sh` fails when their tables disagree |
+| Every pull request | `ci / ci-ok` must pass. It runs the plugin check and its self-test, the voice lint, and the starters' tests |
 | Names and art | Never add the SoulCraft name, characters or art to a starter ([NOTICE](NOTICE)). Never add a secret, a private path or personal data |
 | A question | Open an issue. A security or conduct problem goes to the private form in [SECURITY.md](SECURITY.md) |
 

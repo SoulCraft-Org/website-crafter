@@ -26,10 +26,16 @@ jobs:
         .claude-plugin/**
         plugin/**
         tools/**
+        templates/**
+        tests/**
         **/*.md
         .github/workflows/ci.yml
         .github/dependabot.yml
+      # Git Crafter's .nvmrc, for its engine in tests/engine.sh.
+      node-version: "26"
       short: |
         python3 -I tools/check_plugin.py --self-test
         python3 -I tools/check_plugin.py
         bash tools/voice_lint.sh
+        # The starters against Git Crafter's engine at the pin above: seconds of work, so the short job on ubuntu-slim.
+        bash tests/engine.sh

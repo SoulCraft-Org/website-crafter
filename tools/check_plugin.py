@@ -6,7 +6,9 @@ Field rules from the Claude Code docs (plugin marketplaces, plugins reference, s
                and a source that starts with ./, holds no .., and contains .claude-plugin/plugin.json
   manifest     plugin.json's name is its marketplace entry's name; version and license agree where both set them
   skills       each skills/<name>/SKILL.md opens with front matter whose name is its folder's and whose
-               description is set and at most 1,536 characters, the listing's cut-off
+               description is set and at most 1,536 characters, the listing's cut-off. The front matter is
+               read one line per key, so write each key and its value on one line: a YAML block scalar
+               (| or >) or a wrapped value reads as empty or cut short
 
     check_plugin.py [ROOT]     exit 0 passes, 1 a finding, 2 a manifest is missing or not JSON
     check_plugin.py --self-test   a seeded good and bad marketplace; exit 1 if either behaves wrong
