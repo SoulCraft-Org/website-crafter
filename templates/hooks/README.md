@@ -23,8 +23,13 @@ flowchart LR
 | Guard | Fires on | Does | Rules from |
 | --- | --- | --- | --- |
 | `generated` | Every Edit and Write | Blocks an edit to a file a tool writes, and names that tool | `guards.json` `generated` |
-| `staging` | Every Bash call | Blocks `git add -A`, `--all`, `-u` or `.`, `git commit -a`, and `--amend` with no pathspec | Built in |
-| `deploy` | Every Bash call, and the MCP tools the matcher names | Asks the owner before a deploy, a remote write or a secret change | `guards.json` `deploy` and `tools` |
+| `staging` | Every Bash call | Blocks a whole-tree `git add` or `git stage` (`-A`, `-u`, `.`, `./`, `*`, `:/`), `git commit -a`, and `--amend` with no pathspec | Built in: `add-all`, `commit-all`, `amend` |
+| `deploy` | Every Bash call, and the MCP tools the matcher names | Asks the owner before a deploy, a rollback, a remote write or a secret change | `guards.json` `deploy` and `tools` |
+
+| Limit | So |
+| --- | --- |
+| `generated` sees only Edit and Write | A Bash `sed -i`, a `>` redirect or a script that writes a generated file passes. CI's check that the file matches its generator is the backstop |
+| `staging` and `deploy` read the command as typed | They do not follow `sh -c`, `bash -c`, `eval`, a shell alias or a script. Name a script that deploys in `guards.json` |
 
 | File | Holds |
 | --- | --- |

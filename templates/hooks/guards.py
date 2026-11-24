@@ -6,10 +6,11 @@ staging rules are built in. A site's generated files, its deploy commands and to
 data, in guards.json beside this file.
 
   guards.py generated    Edit and Write: a generated file is never edited by hand. Exit 2 blocks, with the reason
-  guards.py staging      Bash: git add -A, --all, -u or ., git commit -a, and --amend with no pathspec. Exit 2 blocks
+  guards.py staging      Bash: git add or git stage of the whole tree, git commit -a, and --amend with no pathspec.
+                         Exit 2 blocks. It reads the command as typed and does not follow sh -c, eval or a script
   guards.py deploy       Bash and MCP tools: a call that changes what is live becomes a permission prompt
   guards.py --self-test  the built-in staging samples and guards.json's samples, matched as text and never run; every
-                         rule must be hit by a sample. Exit 1 if one is judged wrong
+                         rule, the built-in ones by id, must be hit by a sample. Exit 1 if one is judged wrong
 
 The hook's JSON arrives on stdin (tool_name, tool_input). Exit 0 lets the call through. A guard that cannot read its
 input or its data exits 1, which Claude Code shows as a hook error and lets through: could not check is not a finding.
@@ -22,21 +23,29 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 
-# Staging shapes that take the whole tree, judged on the command with quoted text (commit messages) blanked.
-GIT = r"\bgit(?:\s+-C\s+\S+)*\s+"
+# Staging shapes that take the whole tree. git may carry -C <dir>, -c <key=value> or --long options before its verb.
+# A whole-tree pathspec may be quoted ("." or '*'); other quoted text, such as a commit message, is blanked first.
+GIT = r"\bgit(?:\s+-[Cc]\s+\S+|\s+--[\w-]+(?:=\S+)?)*\s+"
+WHOLE = r"""(?:-[a-zA-Z]*[Au][a-zA-Z]*|--all|--update|["']?(?:\.|\./|\*|:/)["']?)"""
+PATHSPECS = {".", "./", "*", ":/"}
 STAGING = [
-    (GIT + r"add\b[^|;&\n]*\s(?:-A|--all|-u|--update|\.)(?=\s|$|[;&|])",
-     "git add -A, --all, -u or . stages the whole tree. Name the paths: git add <paths>"),
-    (GIT + r"commit\b[^|;&\n]*\s(?:--all|-a[a-z]*)(?=\s|$|[;&|])",
+    ("add-all", GIT + r"(?:add|stage)\b[^|;&\n]*\s" + WHOLE + r"(?=\s|$|[;&|])",
+     "git add or git stage with -A, --all, -u, ., ./, * or :/ stages the whole tree. Name the paths: git add <paths>"),
+    ("commit-all", GIT + r"commit\b[^|;&\n]*\s(?:--all|-[a-zA-Z]*a[a-zA-Z]*)(?=\s|$|[;&|])",
      "git commit -a commits every change in the tree. Stage explicit paths, then commit those"),
-    (GIT + r"commit\b[^|;&\n]*--amend(?![^|;&\n]*\s--\s)",
+    ("amend", GIT + r"commit\b[^|;&\n]*--amend(?![^|;&\n]*\s--\s)",
      "git commit --amend with no pathspec rewrites the whole last commit. Pass -- <paths>, or make a new commit"),
 ]
 STAGING_SAMPLES = [
-    ("git add -A", "block"), ("git -C site add .", "block"), ("git commit -am 'fix'", "block"),
-    ("git commit --amend", "block"), ("git add src/pages/index.astro", "pass"),
-    ('git commit -m "add . and -A to the docs"', "pass"), ("git commit --amend --no-edit -- src/a.ts", "pass"),
+    ("git add -A", "block"), ("git -C site add .", "block"), ("git stage -u", "block"),
+    ("git -c core.autocrlf=false add .", "block"), ("git add ./", "block"), ("git add *", "block"),
+    ("git add -vA", "block"), ('git add "."', "block"), ("git commit -am 'fix'", "block"), ("git commit -va", "block"),
+    ("git commit --amend", "block"), ("git add src/pages/index.astro", "pass"), ("git add ./src/a.ts", "pass"),
+    ("git add -p src/a.ts", "pass"), ('git commit -m "git add . and -A in the docs"', "pass"),
+    ("git commit --amend --no-edit -- src/a.ts", "pass"),
 ]
+# {wrangler} in a deploy pattern: wrangler as npx or a package runner calls it, @version and flags before the verb included.
+WRANGLER = r"\bwrangler(?:@\S*)?\s(?:.*\s)?"
 
 
 def glob_re(glob):
@@ -61,10 +70,11 @@ def generated(event, data, root):
 
 
 def staging(event):
-    bare = re.sub(r'"[^"]*"|\'[^\']*\'', '""', (event.get("tool_input") or {}).get("command") or "")
-    for pattern, why in STAGING:
+    quoted = lambda m: m.group(0) if (m.group(1) if m.group(1) is not None else m.group(2)) in PATHSPECS else '""'
+    bare = re.sub(r'"([^"]*)"|\'([^\']*)\'', quoted, (event.get("tool_input") or {}).get("command") or "")
+    for i, (_, pattern, why) in enumerate(STAGING):
         if re.search(pattern, bare):
-            return "block", why, None
+            return "block", why, ("staging", i)
     return "pass", "", None
 
 
@@ -74,7 +84,8 @@ def deploy(event, data):
         for segment in re.split(r"&&|\|\||[;|\n]", given.get("command") or ""):
             words = segment.split()
             for i, r in enumerate(data["deploy"]):
-                if (re.search(r["pattern"], segment) and not any(f in words for f in r.get("unless", []))
+                if (re.search(r["pattern"].replace("{wrangler}", WRANGLER), segment)
+                        and not any(f in words for f in r.get("unless", []))
                         and all(f in words for f in r.get("only_with", []))):
                     return "ask", r["why"], ("deploy", i)
         return "pass", "", None
@@ -112,7 +123,9 @@ def self_test():
         if got != want:
             wrong.append(f"{mode}: {json.dumps(event['tool_input'])} was {got}, not {want}")
     every = {(k, i) for k in ("generated", "deploy", "tools") for i in range(len(data[k]))}
-    wrong += [f"{k} rule {i} has no sample that hits it" for k, i in sorted(every - hit)]
+    every |= {("staging", i) for i in range(len(STAGING))}
+    name = lambda k, i: STAGING[i][0] if k == "staging" else i
+    wrong += [f"{k} rule {name(k, i)} has no sample that hits it" for k, i in sorted(every - hit)]
     for line in wrong:
         print(f"::error::{line}")
     print(f"guards self-test: {len(cases)} samples, {'PASS' if not wrong else 'FAIL'}")
