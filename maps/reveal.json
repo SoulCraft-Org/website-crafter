@@ -1,0 +1,20 @@
+{
+ "id": "reveal",
+ "name": "Reveal",
+ "why": "A page's first seconds, from first paint to its signature move",
+ "ideal": "A page paints its hero fast, holds still, starts on little JavaScript, answers input at once, and lets every visitor pause its motion.",
+ "sources": [
+  {"title": "Largest Contentful Paint (LCP)", "url": "https://web.dev/articles/lcp", "date": "2026-11-24"},
+  {"title": "Total Blocking Time (TBT)", "url": "https://web.dev/articles/tbt", "date": "2026-11-24"},
+  {"title": "Understanding SC 2.2.2 Pause, Stop, Hide", "url": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html", "date": "2026-11-24"}
+ ],
+ "critical_path": ["role", "paint", "budget", "move"],
+ "steps": [
+  {"id": "role", "name": "Role", "tools": ["The page's one-line role", "Its signature move"], "rule": "Say what the page is for first; few words come before its first action.", "rule_ref": "https://github.com/SoulCraft-Org/website-crafter/blob/main/plugin/skills/craft-site/SKILL.md#1-one-role-one-signature-move", "metric": "usability.words_before_action", "icon": "plan"},
+  {"id": "paint", "name": "First paint", "tools": ["The hero image, eager and sized", "Self-hosted fonts"], "rule": "The hero paints first, at the size the page shows it.", "rule_ref": "https://web.dev/articles/lcp", "metric": "design.lcp_mobile", "icon": "speed"},
+  {"id": "budget", "name": "Start-up budget", "tools": ["The budget test", "import() for each demo"], "rule": "Start-up JavaScript stays under the budget; each demo loads by import() near the screen.", "rule_ref": "https://github.com/SoulCraft-Org/website-crafter/blob/main/plugin/skills/craft-site/SKILL.md#2-a-start-up-budget", "metric": "code.client_js_kb", "icon": "tokens"},
+  {"id": "steady", "name": "Hold still", "tools": ["width, height and aspect-ratio", "Space kept for late content"], "rule": "Nothing moves the layout once it paints.", "rule_ref": "https://web.dev/articles/cls", "metric": "design.cls_mobile", "icon": "measure"},
+  {"id": "move", "name": "Signature move", "tools": ["The page's one demo", "Work kept off the main thread"], "rule": "The signature move answers input at once; no long task blocks it.", "rule_ref": "https://web.dev/articles/tbt", "metric": "usability.tbt_mobile", "icon": "production"},
+  {"id": "pause", "name": "Pause", "tools": ["One Pause motion button", "prefers-reduced-motion"], "rule": "One Pause motion button stills every animation, loop and video, and a keyboard reaches it.", "rule_ref": "https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html", "metric": "usability.axe_violations", "icon": "shield"}
+ ]
+}
