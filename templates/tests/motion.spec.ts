@@ -13,10 +13,14 @@ function countFrames() {
   w.requestAnimationFrame = (cb) => raf((t) => (w.__frames++, cb(t)));
 }
 
-// What still moves over the next 400 ms: running animations, playing videos and animation frames.
+// The window motion is counted over. Fixed on purpose: a still page is the absence of frames, which no event announces,
+// so the test watches for this long. Several frames fit in it at 60 a second.
+const WINDOW_MS = 400;
+
+// What still moves over the next WINDOW_MS: running animations, playing videos and animation frames.
 async function moving(page: Page) {
   await page.evaluate(() => ((window as unknown as { __frames: number }).__frames = 0));
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(WINDOW_MS);
   return page.evaluate(() => ({
     animations: document.getAnimations().filter((a) => a.playState === "running").length,
     videos: [...document.querySelectorAll("video")].filter((v) => !v.paused).length,
@@ -27,7 +31,7 @@ async function moving(page: Page) {
 function expectStill(m: { animations: number; videos: number; frames: number }, path: string) {
   expect(m.animations, `${path} running animations`).toBe(0);
   expect(m.videos, `${path} playing videos`).toBe(0);
-  expect(m.frames, `${path} animation frames in 400 ms`).toBeLessThanOrEqual(1);
+  expect(m.frames, `${path} animation frames in ${WINDOW_MS} ms`).toBeLessThanOrEqual(1);
 }
 
 for (const path of PAGES) {

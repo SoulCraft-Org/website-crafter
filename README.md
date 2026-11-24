@@ -17,6 +17,7 @@ claude plugin install website-crafter@website-crafter
 | Part | Holds |
 | --- | --- |
 | [plugin/skills/craft-site](plugin/skills/craft-site/SKILL.md) | The method: one role and one signature move per page, a start-up budget, same-origin pages, pausable motion, a words lint, stage before ship |
+| [plugin/skills/prompt-fibo](plugin/skills/prompt-fibo/SKILL.md), [prompt-ltx](plugin/skills/prompt-ltx/SKILL.md), [prompt-meshy](plugin/skills/prompt-meshy/SKILL.md) | Prompting FIBO 2.0 for pictures, LTX-2.5 for video and Meshy for 3D. Your site fills in each one's style block |
 | [templates/quality](templates/quality/README.md) | Your site's Quality, Speed and Consumption page: six tabs, with the Pages tab reading your live site |
 | [templates/process](templates/process/README.md) | Your site's Process page: the delivery, deploy and code maps |
 | [templates/tests](templates/tests/README.md) | Four page tests: the start-up budget, same-origin requests, pausable motion and the words lint |

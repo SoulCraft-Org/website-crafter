@@ -13,7 +13,7 @@ for (const path of PAGES) {
       const url = req.url();
       if (/^(data|blob|about):/.test(url)) return;
       const u = new URL(url);
-      if (u.origin !== origin && !(u.hostname in ALLOWED_HOSTS)) foreign.push(url);
+      if (u.origin !== origin && !Object.hasOwn(ALLOWED_HOSTS, u.hostname)) foreign.push(url);
     });
     await page.goto(path, { waitUntil: "load" });
     await page.evaluate(async () => {

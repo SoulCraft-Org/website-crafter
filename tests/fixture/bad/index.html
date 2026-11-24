@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <title>Bad fixture</title>
-<!-- Breaks every page test on purpose (tests/fixture/check-bad.mjs): a request to another origin, a start-up script over
-     the small budget the bad run sets, a late block that shifts the layout, banned words, and motion with no pause. -->
+<!-- Breaks each page rule once, on purpose (tests/fixture/check-bad.mjs): a request to another origin, a start-up script
+     over the small budget the bad run sets, a late block that shifts the layout, banned words, and a Pause motion
+     button that says it paused but stills nothing. -->
 <style>.spin { width: 2rem; height: 2rem; background: #555; animation: spin 1s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }</style>
 <script>window.startUp = Array.from({ length: 40 }, (_, i) => `start-up value ${i * 7919 % 104729}`);</script>
 </head>
 <body>
+<button type="button" aria-pressed="false" id="pause">Pause motion</button>
 <main>
 <h1>Lorem ipsum — coming soon</h1>
 <p>TODO: write this page.</p>
@@ -16,6 +18,15 @@
 <p><img src="https://example.com/pixel.png" width="1" height="1" alt=""></p>
 <p>The last paragraph.</p>
 </main>
-<script>setTimeout(() => document.querySelector("main").prepend(Object.assign(document.createElement("div"), { style: "height: 600px" })), 300);</script>
+<script>
+  const pause = document.getElementById("pause");
+  pause.addEventListener("click", () => {
+    document.documentElement.dataset.motion = "paused";
+    pause.setAttribute("aria-pressed", "true");
+    try { localStorage.setItem("motion", "paused"); } catch {}
+  });
+  try { if (localStorage.getItem("motion") === "paused") pause.click(); } catch {}
+  setTimeout(() => document.querySelector("main").prepend(Object.assign(document.createElement("div"), { style: "height: 600px" })), 300);
+</script>
 </body>
 </html>

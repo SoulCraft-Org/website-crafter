@@ -11,6 +11,8 @@ character or art is in this repository. A site you craft from these starters car
 name and your own art.
 
 The method and the starters generalise what the soulcraft.computer site repository proved.
+The prompt-fibo, prompt-ltx and prompt-meshy skills come from that repository's prompting skills
+(read 2026-11-24), with its art direction replaced by a style block each site fills in.
 The CI standard, the open-repo files and the Quality and Process starters follow Git Crafter
 (https://github.com/SoulCraft-Org/git-crafter), licensed under the Apache License, Version 2.0.
 Git Crafter: Copyright 2026 The Git Crafter Authors. Published by SoulCraft.

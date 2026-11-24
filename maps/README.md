@@ -43,7 +43,7 @@ A change to the site, from one build to private previews, a merge and the live p
 | --- | --- | --- |
 | Build once | Build once per change; every later step reads that build. | `ci.latest_pr_dollars` |
 | Stage | Stage each changed page as a private preview; keep the change small enough for one sitting. | `pull_requests.over_400_lines` |
-| Browser tests | Browser tests check what a visitor sees on each page, not how the code works. | `tests.e2e_routes` |
+| Browser tests | A browser test opens each page and checks what a visitor sees there. | `tests.e2e_routes` |
 | Review | The owner saw the previews, and the pull request is reviewed at its head. | `pull_requests.reviewed` |
 | Merge | Merge within minutes of all green. | `pull_requests.green_to_merge_minutes` |
 | Read live | A change is live only when the live page shows it; read it after each deploy. | `deploy.latest_lead_hours` |

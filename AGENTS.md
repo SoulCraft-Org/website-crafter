@@ -10,6 +10,7 @@ Instructions for every coding agent in this repo. Claude Code reads this file th
 | Shipping | Branch, commit with `git commit -s`, stage by path, push the branch and open a pull request. Never push to `main` |
 | Page tests | `templates/tests/*.spec.ts` run in CI's standard job only, against `tests/fixture/good` (every test passes) and `tests/fixture/bad` (every test must fail, `check-bad.mjs`). Never start a browser or a server on a laptop that only edits |
 | Pack | `pack.json` adds no tab; `maps/` holds the pack's Process maps. `tests/pack.test.mjs` runs Git Crafter's `checkLibrary` and `checkMaps` on them, and holds `maps/README.md` equal to the map files |
+| Prompting skills | `plugin/skills/prompt-*` keep a `<style block>` placeholder; `tests/skills.test.mjs` fails when a site's own art direction or name lands in one |
 | Names and art | No SoulCraft name, character or art in a starter or a skill ([NOTICE](NOTICE)) |
 | Secrets | Never print, copy or commit a key value, a private path or personal data |
 | Writing | One idea per sentence, no em dashes. Attribute every figure in its sentence, or label it a goal |
