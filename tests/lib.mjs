@@ -17,12 +17,17 @@ export function engine(path) {
 }
 
 // The two starters laid out as a site repo has them, with an empty run so the page builds; edit changes the copied
-// configs first. The folder is gone when fn returns.
+// configs first. The pack the quality starter pins sits where Git Crafter looks for it with no CODE_OS_PACKS set,
+// .code-os-packs/<owner>/<repo>: a copy of this repo's pack.json and maps/. The folder is gone when fn returns.
 export function siteRepo(fn, edit = () => {}) {
   const dir = mkdtempSync(join(tmpdir(), 'site-starter-'));
   try {
     mkdirSync(join(dir, 'quality', 'process'), { recursive: true });
     mkdirSync(join(dir, 'quality', 'data'));
+    const pack = join(dir, '.code-os-packs', 'SoulCraft-Org', 'website-crafter');
+    mkdirSync(pack, { recursive: true });
+    cpSync(join(ROOT, 'pack.json'), join(pack, 'pack.json'));
+    cpSync(join(ROOT, 'maps'), join(pack, 'maps'), { recursive: true });
     cpSync(join(ROOT, 'templates/quality/targets'), join(dir, 'quality/targets'), { recursive: true });
     const quality = json('templates/quality/config.json');
     const processConfig = json('templates/process/config.json');

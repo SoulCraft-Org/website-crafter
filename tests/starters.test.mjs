@@ -68,10 +68,21 @@ test('templates: no dash, home path, private host or reserved name; every relati
     const text = read(f);
     assert.doesNotMatch(text, /[–—]/, `${f}: a dash`);
     assert.doesNotMatch(text, /\/Users\/|~\/|soulcraft\.computer/i, `${f}: a private path or host`);
-    assert.doesNotMatch(text.replaceAll('github.com/SoulCraft-Org/', ''), /soul\s*craft/i, `${f}: the reserved name`);
+    // An owner/repo reference (a link, the pack pin) names where code comes from, not a site's brand.
+    assert.doesNotMatch(text.replace(/(?:github\.com\/)?SoulCraft-Org\//g, ''), /soul\s*craft/i, `${f}: the reserved name`);
     // Links in Markdown only: a regex in a spec can look like one.
     for (const [, link] of f.endsWith('.md') ? text.matchAll(/\]\(([^)\s#]+)[^)]*\)/g) : []) {
       if (!/^[a-z]+:/i.test(link)) assert.ok(existsSync(resolve(dirname(join(ROOT, f)), link)), `${f} links ${link}`);
     }
+  }
+});
+
+test('README.md: every relative link resolves, and it links each starter', () => {
+  const text = read('README.md');
+  for (const [, link] of text.matchAll(/\]\(([^)\s#]+)[^)]*\)/g)) {
+    if (!/^[a-z]+:/i.test(link)) assert.ok(existsSync(join(ROOT, link)), `README.md links ${link}`);
+  }
+  for (const dir of readdirSync(join(ROOT, 'templates'), { withFileTypes: true }).filter((e) => e.isDirectory())) {
+    assert.ok(text.includes(`(templates/${dir.name}/README.md)`), `README.md links templates/${dir.name}`);
   }
 });

@@ -14,6 +14,7 @@ flowchart LR
 | 1 | Copy `config.json` to `<your repo>/quality/config.json` and set `name` to your site's name |
 | 2 | Edit `targets/web.json`: your production `origin`, one `key_pages` path per page role, your `src_dirs`. Copy it to `<your repo>/quality/targets/web.json` |
 | 3 | Copy Git Crafter's [pages.yml](https://github.com/SoulCraft-Org/git-crafter/blob/main/templates/ci/pages.yml) and the [process starter](../process/README.md). A push to main builds both pages |
+| Pack | `packs` pins Website Crafter's pack at a full commit SHA: it adds the four Process maps and no tab. To move it, paste a newer `main` commit's full SHA. For a local run, clone the pack at that SHA into `.code-os-packs/SoulCraft-Org/website-crafter` and gitignore `.code-os-packs/` |
 
 ## The six tabs
 

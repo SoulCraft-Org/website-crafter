@@ -1,17 +1,18 @@
 # Process starter for a website
 
-Your site's Process page: three maps from Git Crafter's library, each step scored by a metric on your Quality page. [config.json](config.json) is the Process config and its maps file in one. It is Git Crafter's [process starter](https://github.com/SoulCraft-Org/git-crafter/blob/main/templates/process/README.md) cut to the maps a site repo can score.
+Your site's Process page: three maps from Git Crafter's library and the four maps of Website Crafter's pack, each step scored by a metric on your Quality page. [config.json](config.json) is the Process config and its maps file in one. It is Git Crafter's [process starter](https://github.com/SoulCraft-Org/git-crafter/blob/main/templates/process/README.md) cut to the maps a site repo can score.
 
 ```mermaid
 flowchart LR
   S[config.json] -->|copy, set placeholders| C[quality/process/config.json]
   Q[quality/config.json<br/>the quality starter] -->|metric ids| C
+  K[Website Crafter's pack<br/>pinned in quality/config.json] -->|media, stage, reveal, open| C
   C --> A[actions/pages<br/>pages: process quality] --> P[Your Process page]
 ```
 
 | Step | Do |
 | --- | --- |
-| 1 | Set up the [quality starter](../quality/README.md) first: every step here reads one of its tabs |
+| 1 | Set up the [quality starter](../quality/README.md) first: every step here reads one of its tabs, and its `packs` pin supplies the pack's maps |
 | 2 | Copy `config.json` to `<your repo>/quality/process/config.json` |
 | 3 | Replace the placeholders below |
 | 4 | Push. Git Crafter's `pages.yml` draws the page with `pages: process quality` |
@@ -30,8 +31,12 @@ flowchart LR
 | `delivery` | 5 | `pull-requests` | none |
 | `deploy` | 4 | `pages` | `wrangler-login`, or `platform: "pages"` |
 | `code` | 6 | `code`, `actions` | none |
+| `media` | 5 | `pages`, `pull-requests` | none |
+| `stage` | 6 | `pages`, `pull-requests`, `actions` | `wrangler-login` |
+| `reveal` | 6 | `pages`, `code` | none |
+| `open` | 5 | `pull-requests`, `issues`, `actions` | none |
 
-Git Crafter's other library maps read tabs this starter's Quality config leaves out, so their steps would fail the build. Add one with `{ "use": "<id>" }` once its tab is on ([pages/maps](https://github.com/SoulCraft-Org/git-crafter/blob/main/pages/maps/README.md)).
+The first three are Git Crafter's library maps; the last four are this repo's [maps](../../maps/README.md). Git Crafter's other library maps read tabs this starter's Quality config leaves out, so their steps would fail the build. Add one with `{ "use": "<id>" }` once its tab is on ([pages/maps](https://github.com/SoulCraft-Org/git-crafter/blob/main/pages/maps/README.md)).
 
 ## Keys
 

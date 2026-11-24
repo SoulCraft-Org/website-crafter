@@ -1,8 +1,8 @@
 // The pack: pack.json and the four maps in maps/, against Git Crafter's engine at the ci.yml pin (GIT_CRAFTER). Each map
-// passes the engine's library checks and loads beside its library; a site repo that pins this pack draws all four next to
-// the process starter's maps, every step a metric on the website quality starter's page; and maps/README.md matches.
+// passes the engine's library checks and loads beside its library; the starters pin this pack at a full SHA and draw all
+// four next to the library maps, every step a metric on the website quality starter's page; and maps/README.md matches.
 import assert from 'node:assert/strict';
-import { cpSync, mkdirSync, readdirSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { test } from 'node:test';
 
@@ -14,27 +14,6 @@ const { configScope, readDocs } = await engine('tools/collect_org.mjs');
 
 const MAPS = ['media', 'stage', 'reveal', 'open'];
 const pack = Object.fromEntries(MAPS.map((id) => [id, json(`maps/${id}.json`)]));
-const PIN = `SoulCraft-Org/website-crafter@${'0'.repeat(40)}`;
-
-// A site repo whose Quality config pins this pack and whose Process config uses every map: CODE_OS_PACKS holds a copy of
-// the pack where actions/pages would check it out, as the engine reads it from the environment.
-function pinnedSite(fn) {
-  const before = process.env.CODE_OS_PACKS;
-  try {
-    return siteRepo(fn, ({ dir, quality, processConfig }) => {
-      const at = join(dir, 'packs', 'SoulCraft-Org', 'website-crafter');
-      mkdirSync(at, { recursive: true });
-      cpSync(join(ROOT, 'pack.json'), join(at, 'pack.json'));
-      cpSync(join(ROOT, 'maps'), join(at, 'maps'), { recursive: true });
-      process.env.CODE_OS_PACKS = join(dir, 'packs');
-      quality.packs = [PIN];
-      processConfig.maps.push(...MAPS.map((use) => ({ use })));
-    });
-  } finally {
-    if (before === undefined) delete process.env.CODE_OS_PACKS;
-    else process.env.CODE_OS_PACKS = before;
-  }
-}
 
 test('pack.json adds no tab, and maps/ holds the four maps', () => {
   assert.deepEqual(json('pack.json'), { tabs: [] });
@@ -50,11 +29,14 @@ test("maps: each passes Git Crafter's library checks and loads beside its librar
   for (const id of MAPS) assert.deepEqual(library[id], pack[id], id);
 });
 
-test('a site repo that pins this pack draws its four maps beside the starter\'s, every step on its Quality page', () => pinnedSite((dir) => {
+test('the starters pin this pack at a full SHA and draw its four maps, every step on their Quality page', () => siteRepo((dir) => {
+  assert.deepEqual(json('templates/quality/config.json').packs.map((p) => p.replace(/@[0-9a-f]{40}$/, '@<sha>')), ['SoulCraft-Org/website-crafter@<sha>']);
+  const uses = json('templates/process/config.json').maps.map((m) => m.use);
+  assert.deepEqual(uses.filter((u) => MAPS.includes(u)), MAPS, 'the process starter uses every map of the pack');
   const { maps } = readDocs(dir, configScope(json('templates/process/config.json')).docs, 'quality/config.json');
   const { defs, why } = qualityDefs(dir, 'quality/config.json');
   assert.ok(defs, why);
-  assert.deepEqual(maps.maps.map((m) => m.id), [...json('templates/process/config.json').maps.map((m) => m.use), ...MAPS]);
+  assert.deepEqual(maps.maps.map((m) => m.id), uses);
   assert.deepEqual(checkMaps(maps, new Set(Object.keys(defs)), 'config.json'), []);
   const table = new Map(rows(read('maps/README.md'), '| Map |').map(([map, ...cells]) => [ids(map)[0], cells]));
   assert.deepEqual([...table.keys()], MAPS);
