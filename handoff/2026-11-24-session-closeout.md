@@ -31,7 +31,7 @@ flowchart LR
 | New | Release 0.1.1 | released, on the owner's yes |
 | Check | Install the plugin on a clean machine (not done: the build machine already had everything) | `claude plugin install website-crafter@website-crafter` works there |
 
-**Found on the way.** Lessons a public prompt skill can carry:
+**Found on the way.** Lessons a public prompt skill can carry, each from this session's own renders on 2026-11-24:
 
 | Model | Lesson |
 |---|---|
