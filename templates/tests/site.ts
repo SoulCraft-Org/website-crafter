@@ -20,7 +20,10 @@ export const PAUSE_LABEL = "Pause motion";
 // block: a match fails the test; flags default to "giu", ignoring case. warn: a long sentence adds a warning to the
 // report, and the test passes.
 export const WORDS = {
-  banned: [] as string[],
+  banned: [
+    // "a word your site never says",
+    ...(process.env.SITE_BANNED ?? "").split(","), // SITE_BANNED="word,another" adds more in CI
+  ].map((w) => w.trim()).filter(Boolean),
   block: [
     { id: "dash", pattern: "[\\u2013\\u2014]", why: "an en or em dash: use a comma, a colon or two sentences" },
     { id: "placeholder", pattern: "\\b(lorem ipsum|todo|tbd|fixme)\\b", why: "placeholder text left on the page" },

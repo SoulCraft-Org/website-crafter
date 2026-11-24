@@ -1,6 +1,6 @@
 # Page tests
 
-Four Playwright tests, one for each rule of the [craft-site skill](../../plugin/skills/craft-site/SKILL.md) a browser can check. Each opens every page in `site.ts` the way a visitor does. They come from the tests soulcraft.computer runs in CI.
+Four Playwright tests, one for each rule of the [craft-site skill](../../plugin/skills/craft-site/SKILL.md) a browser can check. Each opens every page in `site.ts` the way a visitor does. They come from the tests a live site runs in CI.
 
 ```mermaid
 flowchart LR

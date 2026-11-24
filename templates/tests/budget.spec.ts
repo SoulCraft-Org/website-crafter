@@ -55,8 +55,8 @@ for (const path of PAGES) {
       seen.add(u.href);
       const body = await fetchText(request, u.href);
       total += gzipSync(body).length;
-      // Static imports only: `from "./x.js"`, `import "/assets/x.js"`. import("./x.js") has a parenthesis: it is lazy.
-      for (const im of body.matchAll(/(?:from|import)\s*["']((?:\.{1,2})?\/[^"']+\.js)["']/g)) queue.push(new URL(im[1], u));
+      // Static imports only: `from "./x.js"`, `import "/assets/x.js"`, never `//host/x.js`. import("./x.js") is lazy.
+      for (const im of body.matchAll(/(?:from|import)\s*["']((?:\.{1,2}\/|\/(?!\/))[^"']+\.js)["']/g)) queue.push(new URL(im[1], u));
     }
     expect(total, `${path} start-up JavaScript, gzip bytes`).toBeLessThanOrEqual(START_UP_JS_BYTES);
   });

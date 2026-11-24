@@ -1,6 +1,6 @@
 ---
 name: prompt-fibo
-description: How to prompt Bria FIBO 2.0 (text to image) well: its structured JSON caption (VGL), settings, the Space's quirks, and a style block each site fills in. Read before every FIBO render, still or concept, including concept pictures for image-to-3D (Meshy) or image-to-video (LTX).
+description: "How to prompt Bria FIBO 2.0 (text to image) well: its structured JSON caption (VGL), settings, the Space's quirks, and a style block each site fills in. Read before every FIBO render, still or concept, including concept pictures for image-to-3D (Meshy) or image-to-video (LTX)."
 ---
 
 # Prompting FIBO 2.0

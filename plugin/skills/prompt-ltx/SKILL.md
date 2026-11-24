@@ -1,6 +1,6 @@
 ---
 name: prompt-ltx
-description: How to prompt Lightricks LTX-2.5 (image to video, text to video) well: the shot-description paragraph, image-to-video rules, camera words, settings, loops, and a style block each site fills in. Read before every LTX render.
+description: "How to prompt Lightricks LTX-2.5 (image to video, text to video) well: the shot-description paragraph, image-to-video rules, camera words, settings, loops, and a style block each site fills in. Read before every LTX render."
 ---
 
 # Prompting LTX-2.5

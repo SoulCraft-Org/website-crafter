@@ -8,7 +8,7 @@ flowchart LR
 | Change | How |
 | --- | --- |
 | A rule in the method | Edit [plugin/skills/craft-site/SKILL.md](plugin/skills/craft-site/SKILL.md). Say in the pull request which site proved the rule, and how it was measured |
-| A skill | Add `plugin/skills/<name>/SKILL.md` with front matter whose `name` is the folder's. Run `python3 -I tools/check_plugin.py` |
+| A skill | Add `plugin/skills/<name>/SKILL.md` with front matter whose `name` is the folder's, and quote a `description` that holds `: `. Run `python3 -I tools/check_plugin.py` (it needs `pip install -r tools/requirements.txt`) |
 | A figure | Attribute it in its sentence, with the source and the date you read it, or label it a goal |
 | Writing | One idea per sentence, under about 30 words, no em dashes. `bash tools/voice_lint.sh` runs the lint CI runs |
 | Every commit | Sign off with `git commit -s` ([DCO](https://developercertificate.org/)) |

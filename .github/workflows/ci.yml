@@ -44,6 +44,9 @@ jobs:
         .github/workflows/ci.yml
       # The pinned Git Crafter's .nvmrc, for its engine in tests/engine.sh; tests/pins.test.mjs holds the two equal.
       node-version: "26"
+      # PyYAML for tools/check_plugin.py, which parses each skill's front matter as Claude Code does.
+      python-version: "3.14"
+      pip-requirements: tools/requirements.txt
       short: |
         python3 -I tools/check_plugin.py --self-test
         python3 -I tools/check_plugin.py
