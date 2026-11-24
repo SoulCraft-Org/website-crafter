@@ -1,0 +1,48 @@
+{
+ "comment": "The data guards.py reads: your site's generated files and the commands and tools that change what is live. Edit both lists for your site; the starter's entries fit a Cloudflare Worker site. generated: a glob from the repo root and the command that writes it. deploy: a regex for one shell command, where {wrangler} stands for wrangler however it is called (npx wrangler@latest, flags before the verb), the flags that make it local or a dry run (unless), the flags it needs to be remote (only_with), and why it waits for a yes. tools: a regex for an MCP tool's name, with unless_input: a field of its input and the regex that makes it read-only. samples: a known-good and a known-bad case for every rule above, which guards.py --self-test matches as text and never runs. Add a sample with each rule you add.",
+ "generated": [
+  {"glob": "worker-configuration.d.ts", "why": "written by wrangler types"},
+  {"glob": "src/content/generated/**", "why": "written by your build script; edit its source and run it again"}
+ ],
+ "deploy": [
+  {"pattern": "{wrangler}deploy(?=\\s|$)", "unless": ["--dry-run"], "why": "it publishes the site: wrangler deploy, versions deploy or pages deploy"},
+  {"pattern": "{wrangler}versions\\s+upload(?=\\s|$)", "unless": ["--dry-run"], "why": "wrangler versions upload publishes a version"},
+  {"pattern": "{wrangler}rollback(?=\\s|$)", "why": "wrangler rollback puts an older version live"},
+  {"pattern": "{wrangler}d1\\s+(execute|migrations\\s+apply)\\b", "only_with": ["--remote"], "why": "it writes the remote database"},
+  {"pattern": "{wrangler}(r2\\s+object|kv\\s+key)\\s+(put|delete)\\b", "unless": ["--local"], "why": "it changes remote storage"},
+  {"pattern": "{wrangler}secret\\s+(put|delete|bulk)\\b", "why": "it changes a Worker secret"},
+  {"pattern": "\\b(?:npm|pnpm|yarn|bun)\\s+(?:run(?:-script)?\\s+)?deploy\\S*(?=\\s|$)", "why": "a package script named deploy publishes the site"},
+  {"pattern": "\\bgh\\s+workflow\\s+run\\s+\\S*deploy", "why": "it starts a deploy workflow"}
+ ],
+ "tools": [
+  {"pattern": "(d1_database|r2_bucket|kv_namespace|hyperdrive_config)_(create|delete|update|edit)$", "why": "it changes a Cloudflare resource behind the site"},
+  {"pattern": "d1_database_query$", "unless_input": {"sql": "^\\s*(?i:select|pragma|explain)\\b[^;]*;?\\s*$"}, "why": "a statement that is not one SELECT, PRAGMA or EXPLAIN can write the database"}
+ ],
+ "samples": [
+  {"guard": "deploy", "command": "npx wrangler deploy", "expect": "ask"},
+  {"guard": "deploy", "command": "npx wrangler deploy --dry-run", "expect": "pass"},
+  {"guard": "deploy", "command": "npx wrangler@latest deploy", "expect": "ask"},
+  {"guard": "deploy", "command": "wrangler -e prod deploy", "expect": "ask"},
+  {"guard": "deploy", "command": "wrangler -e prod deploy --dry-run", "expect": "pass"},
+  {"guard": "deploy", "command": "wrangler versions deploy", "expect": "ask"},
+  {"guard": "deploy", "command": "pnpm exec wrangler pages deploy dist", "expect": "ask"},
+  {"guard": "deploy", "command": "wrangler rollback", "expect": "ask"},
+  {"guard": "deploy", "command": "npm run build && npm run deploy", "expect": "ask"},
+  {"guard": "deploy", "command": "npm run build", "expect": "pass"},
+  {"guard": "deploy", "command": "wrangler versions upload", "expect": "ask"},
+  {"guard": "deploy", "command": "wrangler d1 migrations apply site-db --remote", "expect": "ask"},
+  {"guard": "deploy", "command": "wrangler d1 execute site-db --local --command 'select 1'", "expect": "pass"},
+  {"guard": "deploy", "command": "wrangler r2 object put assets/hero.avif --file hero.avif", "expect": "ask"},
+  {"guard": "deploy", "command": "wrangler kv key put flag on --local", "expect": "pass"},
+  {"guard": "deploy", "command": "wrangler r2 object get assets/hero.avif", "expect": "pass"},
+  {"guard": "deploy", "command": "echo ok && wrangler secret put SITE_TOKEN", "expect": "ask"},
+  {"guard": "deploy", "command": "gh workflow run deploy.yml", "expect": "ask"},
+  {"guard": "deploy", "command": "gh workflow run ci.yml", "expect": "pass"},
+  {"guard": "deploy", "tool": "mcp__cloudflare__d1_database_create", "input": {}, "expect": "ask"},
+  {"guard": "deploy", "tool": "mcp__cloudflare__d1_database_query", "input": {"sql": "SELECT title FROM pages"}, "expect": "pass"},
+  {"guard": "deploy", "tool": "mcp__cloudflare__d1_database_query", "input": {"sql": "SELECT 1; DELETE FROM pages"}, "expect": "ask"},
+  {"guard": "generated", "path": "worker-configuration.d.ts", "expect": "block"},
+  {"guard": "generated", "path": ".claude/worktrees/w1/src/content/generated/pages.json", "expect": "block"},
+  {"guard": "generated", "path": "src/pages/index.astro", "expect": "pass"}
+ ]
+}

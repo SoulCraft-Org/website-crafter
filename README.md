@@ -23,6 +23,8 @@ claude plugin install website-crafter@website-crafter
 | [templates/tests](templates/tests/README.md) | Four page tests: the start-up budget, same-origin requests, pausable motion and the words lint |
 | [plugin/skills/site-preview](plugin/skills/site-preview/SKILL.md), [stage](plugin/skills/stage/SKILL.md) | Preview the built site page by page, then stage each changed page for the owner and ship it |
 | [templates/page-roles.md](templates/page-roles.md), [art-record.md](templates/art-record.md), [pull-request.md](templates/pull-request.md) | One row per page role, one row per asset, and the pull request a site change opens |
+| [templates/hooks](templates/hooks/README.md) | Three guard hooks: no hand edits to generated files, staging by path, and a yes before every deploy |
+| [tools/export_public.py](tools/export_public.py) | Copies a private site's allow-listed files into a fresh public repo, or nothing when one holds an email, a home path or a key |
 | [maps/](maps/README.md) and [pack.json](pack.json) | Four Process maps a site adds as a pack: media, stage, reveal and open |
 | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) | The marketplace that lists the plugin |
 | [tools/check_plugin.py](tools/check_plugin.py) | The check that the marketplace, the manifest and each skill agree |

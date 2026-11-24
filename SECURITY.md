@@ -18,5 +18,6 @@ flowchart LR
 | --- | --- |
 | `plugin/skills/` | A step that prints, stores or passes a key value, or deploys without the owner's yes |
 | A starter | A file that would commit a secret, a private path or personal data into the site that copies it |
-| `tools/` | A check that passes a manifest it should refuse, or runs code it fetched from an unpinned ref |
+| `tools/` | A check that passes a manifest it should refuse, or runs code it fetched from an unpinned ref. `export_public.py` copying a file it should refuse, or printing the text a finding matched |
+| `templates/hooks/` | A guard that lets a deploy through without asking, or runs a command it was only meant to match |
 | `.github/workflows/` | A step that runs untrusted input, or an unpinned action |

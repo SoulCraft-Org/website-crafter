@@ -49,7 +49,7 @@ A host's preview URL, such as a pull request's preview deploy, needs none of thi
 | Commit | Stage files by path, never every file at once. The manifest goes in the same commit |
 | Pull request | Use the [pull request template](https://github.com/SoulCraft-Org/website-crafter/blob/main/templates/pull-request.md): the page's role, its signature move, the preview links and the art record |
 | CI | The page tests run: budget, origin, words and motion |
-| Merge | The merge deploys. Merge only what should go live |
+| Merge | The merge deploys, so it waits for the owner's "ship". Merge only what should go live |
 | Read live | Open the live page and look for the change. A change is live only when the live page shows it |
 
 A deploy, a remote write and a payment change each wait for the owner's yes.

@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guards.py\" staging" },
+          { "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guards.py\" deploy" }
+        ]
+      },
+      {
+        "matcher": "mcp__.*__(d1_database_(query|create|update|delete)|r2_bucket_(create|update|delete)|kv_namespace_(create|update|delete)|hyperdrive_config_(edit|delete))",
+        "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guards.py\" deploy" }]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guards.py\" generated" }]
+      }
+    ]
+  }
+}
