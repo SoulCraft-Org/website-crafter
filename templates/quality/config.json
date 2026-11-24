@@ -1,0 +1,12 @@
+{
+ "comment": "Website Crafter's Quality, Speed and Consumption config for a website repo, from Git Crafter's starter (templates/quality/config.json at v7.1.0). Copy it to quality/config.json and set name. It keeps the six tabs a site repo can measure in CI, pages first: deploys, design, usability and page speed of the live site. It leaves out documentation, whose docs.unmapped gate fails a pull request until every doc is mapped, and the tabs that read an admin token or a project board (discussions, projects, security, scanning, insights, settings). Add any back by id. Edit targets/web.json for your site and copy it to quality/targets/. Keys: Git Crafter quality/CONFIG.md.",
+ "name": "my-site",
+ "tabs": [
+  "pages",
+  "code",
+  "pull-requests",
+  "actions",
+  "issues",
+  "dependabot"
+ ]
+}

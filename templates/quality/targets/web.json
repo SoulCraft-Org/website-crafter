@@ -1,0 +1,42 @@
+[
+ {
+  "id": "design.raw_hex",
+  "params": {
+   "comment": "The Pages tab reads your site from here. origin is its production URL: replace https://www.example.com/ with yours. For a built folder instead, set site_dir (such as dist, which needs an index.html) and origin to an empty string. key_pages lists one path per page role, as craft-site rule 1 writes them. src_dirs is where your styles live. tokens names your design tokens file, the one source of the palette, or stays null.",
+   "origin": "https://www.example.com/",
+   "site_dir": "",
+   "key_pages": ["/"],
+   "src_dirs": ["src"],
+   "tokens": null
+  }
+ },
+ {
+  "id": "usability.reading_grade",
+  "params": {
+   "comment": "Keep origin, site_dir and key_pages the same as design.raw_hex. crawl_skip lists paths that are not pages, such as an API or a download.",
+   "origin": "https://www.example.com/",
+   "site_dir": "",
+   "key_pages": ["/"],
+   "crawl_skip": ["/api/", "/cdn-cgi/"]
+  }
+ },
+ {
+  "id": "deploy.waiting_merges",
+  "params": {
+   "comment": "platform pages reads GitHub Pages deploys through the GitHub API. For a Cloudflare Worker, delete platform, set worker_dir to the folder that holds its Wrangler config, and log in to Wrangler (wrangler-login).",
+   "platform": "pages"
+  }
+ },
+ {
+  "id": "tests.e2e_routes",
+  "params": {
+   "comment": "Where the site's tests live. The End to end suite holds the browser tests for craft-site rules 2 to 5. pages_dir and page_file find each page's source, so the tab counts the pages no browser test opens.",
+   "suites": [
+    { "label": "Unit", "dir": "tests/unit/", "file": "\\.test\\.[cm]?[jt]sx?$" },
+    { "label": "End to end", "dir": "tests/e2e/", "file": "\\.spec\\.[cm]?[jt]sx?$", "e2e": true }
+   ],
+   "pages_dir": "src/pages/",
+   "page_file": "\\.(astro|mdx?|html)$"
+  }
+ }
+]
