@@ -3,46 +3,21 @@
 // every Process step scores a metric on that page; each README's tables match its config; and no starter file holds a
 // dash, a home path or the reserved name.
 import assert from 'node:assert/strict';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { existsSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { test } from 'node:test';
-import { fileURLToPath, pathToFileURL } from 'node:url';
 
-const ROOT = fileURLToPath(new URL('../', import.meta.url));
-assert.ok(process.env.GIT_CRAFTER, 'GIT_CRAFTER names a Git Crafter checkout at the ci.yml pin: run bash tests/engine.sh');
-const engine = (path) => import(pathToFileURL(join(process.env.GIT_CRAFTER, path)).href);
+import { engine, ids, json, read, ROOT, rows, siteRepo } from './lib.mjs';
+
 const { loadConfig } = await engine('quality/config.mjs');
 const { buildPage } = await engine('quality/build.mjs');
 const { TABS } = await engine('quality/score.mjs');
 const { checkMaps, qualityDefs } = await engine('pages/build.mjs');
 const { configScope, readDocs } = await engine('tools/collect_org.mjs');
 
-const read = (path) => readFileSync(join(ROOT, path), 'utf8');
-const json = (path) => JSON.parse(read(path));
 const STARTERS = ['templates/quality', 'templates/process'];
 const files = STARTERS.flatMap((dir) => readdirSync(join(ROOT, dir), { recursive: true, withFileTypes: true })
   .filter((e) => e.isFile()).map((e) => relative(ROOT, join(e.parentPath, e.name))));
-// The body rows of the Markdown table whose header line starts with heading, each as its cells.
-const rows = (text, heading) => text.slice(text.indexOf(heading)).split('\n\n')[0].split('\n').slice(2)
-  .map((line) => line.split(' | ').map((cell) => cell.replace(/^\| | \|$/g, '')));
-const ids = (cell) => [...cell.matchAll(/`([a-z-]+)`/g)].map((m) => m[1]);
-
-// The two starters laid out as a site repo has them, with an empty run so the page builds.
-function siteRepo(fn) {
-  const dir = mkdtempSync(join(tmpdir(), 'site-starter-'));
-  try {
-    mkdirSync(join(dir, 'quality', 'process'), { recursive: true });
-    mkdirSync(join(dir, 'quality', 'data'));
-    cpSync(join(ROOT, 'templates/quality/config.json'), join(dir, 'quality/config.json'));
-    cpSync(join(ROOT, 'templates/quality/targets'), join(dir, 'quality/targets'), { recursive: true });
-    cpSync(join(ROOT, 'templates/process/config.json'), join(dir, 'quality/process/config.json'));
-    writeFileSync(join(dir, 'quality/data/latest.json'), JSON.stringify({ generated_at: '2026-11-24T00:00:00Z', commit: 'abc1234', mode: 'ci', metrics: {} }));
-    return fn(dir);
-  } finally {
-    rmSync(dir, { recursive: true, force: true });
-  }
-}
 
 test('quality starter: the page builds with its six tabs and no data of its own', () => siteRepo((dir) => {
   const config = loadConfig({ root: dir, file: 'quality/config.json', env: {} });

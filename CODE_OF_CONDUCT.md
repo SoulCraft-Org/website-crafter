@@ -1,6 +1,6 @@
 # Code of conduct
 
-Website Crafter adopts the [Contributor Covenant 3.0](https://www.contributor-covenant.org/version/3/0/code_of_conduct/), its newest version (contributor-covenant.org, read 2026-11-24). Its text is the standard here.
+Website Crafter adopts the [Contributor Covenant 3.0](https://www.contributor-covenant.org/version/3/0/code_of_conduct/), its newest version: contributor-covenant.org's Latest Version link pointed to 3.0 when read on 2026-11-24. Its text is the standard here.
 
 ```mermaid
 flowchart LR

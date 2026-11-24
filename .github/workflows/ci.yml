@@ -28,10 +28,12 @@ jobs:
         tools/**
         templates/**
         tests/**
+        maps/**
+        pack.json
         **/*.md
         .github/workflows/ci.yml
         .github/dependabot.yml
-      # Git Crafter's .nvmrc, for its engine in tests/engine.sh.
+      # The pinned Git Crafter's .nvmrc, for its engine in tests/engine.sh; tests/pins.test.mjs holds the two equal.
       node-version: "26"
       short: |
         python3 -I tools/check_plugin.py --self-test

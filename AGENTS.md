@@ -8,6 +8,7 @@ Instructions for every coding agent in this repo. Claude Code reads this file th
 | Build and test | `python3 -I tools/check_plugin.py --self-test`, `python3 -I tools/check_plugin.py`, `bash tools/voice_lint.sh` and `bash tests/engine.sh`. CI runs them through Git Crafter's `ci-standard.yml` |
 | Starters | `templates/` holds what a site repo copies. `tests/starters.test.mjs` checks each against Git Crafter's engine at the `ci.yml` pin; a README table that disagrees with its config fails it |
 | Shipping | Branch, commit with `git commit -s`, stage by path, push the branch and open a pull request. Never push to `main` |
+| Pack | `pack.json` adds no tab; `maps/` holds the pack's Process maps. `tests/pack.test.mjs` runs Git Crafter's `checkLibrary` and `checkMaps` on them, and holds `maps/README.md` equal to the map files |
 | Names and art | No SoulCraft name, character or art in a starter or a skill ([NOTICE](NOTICE)) |
 | Secrets | Never print, copy or commit a key value, a private path or personal data |
 | Writing | One idea per sentence, no em dashes. Attribute every figure in its sentence, or label it a goal |

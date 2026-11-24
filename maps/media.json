@@ -1,0 +1,19 @@
+{
+ "id": "media",
+ "name": "Media",
+ "why": "Art, video and 3D for a page, from its prompt to a light, steady asset",
+ "ideal": "Each asset is prompted from its page's role, recorded with its licence, sized for its box, and never slows or shifts the page.",
+ "sources": [
+  {"title": "Largest Contentful Paint (LCP)", "url": "https://web.dev/articles/lcp", "date": "2026-11-24"},
+  {"title": "Cumulative Layout Shift (CLS)", "url": "https://web.dev/articles/cls", "date": "2026-11-24"},
+  {"title": "Understanding SC 1.4.3 Contrast (Minimum)", "url": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html", "date": "2026-11-24"}
+ ],
+ "critical_path": ["record", "size", "hero"],
+ "steps": [
+  {"id": "record", "name": "Record", "tools": ["A prompting skill per model", "The art record in the pull request"], "rule": "Each asset's pull request records its model, prompt, licence and date in a table.", "rule_ref": "https://github.com/SoulCraft-Org/website-crafter/blob/main/maps/README.md#media", "metric": "pull_requests.body_table_share", "icon": "plan"},
+  {"id": "size", "name": "Size", "tools": ["AVIF or WebP", "srcset at the widths the page shows"], "rule": "Export each image at the widths the page shows, in AVIF or WebP.", "rule_ref": "https://web.dev/articles/lcp", "metric": "design.total_bytes", "icon": "tokens"},
+  {"id": "hero", "name": "Hero first", "tools": ["fetchpriority on the hero", "loading=lazy below the fold"], "rule": "The hero loads first; every asset below the fold loads lazily.", "rule_ref": "https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading", "metric": "design.lcp_mobile", "icon": "speed"},
+  {"id": "box", "name": "Reserve", "tools": ["width and height", "aspect-ratio"], "rule": "Every image, video and canvas has its box before it loads.", "rule_ref": "https://web.dev/articles/cls", "metric": "design.cls_mobile", "icon": "build"},
+  {"id": "contrast", "name": "Contrast", "tools": ["axe", "Both themes"], "rule": "Text over art keeps its contrast ratio in both themes.", "rule_ref": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html", "metric": "design.contrast_violations", "icon": "review"}
+ ]
+}
