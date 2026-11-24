@@ -17,13 +17,15 @@ export const ALLOWED_HOSTS: Record<string, string> = {};
 export const PAUSE_LABEL = "Pause motion";
 
 // The words lint's rules, craft-site rule 5. banned: words your site must never say, matched whole and ignoring case.
-// block: a match fails the test. warn: a long sentence adds a warning to the report, and the test passes.
+// block: a match fails the test; flags default to "giu", ignoring case. warn: a long sentence adds a warning to the
+// report, and the test passes.
 export const WORDS = {
   banned: [] as string[],
   block: [
     { id: "dash", pattern: "[\\u2013\\u2014]", why: "an en or em dash: use a comma, a colon or two sentences" },
     { id: "placeholder", pattern: "\\b(lorem ipsum|todo|tbd|fixme)\\b", why: "placeholder text left on the page" },
-    { id: "unfilled", pattern: "\\{\\{|\\}\\}|\\[object Object\\]|\\bNaN\\b", why: "a template value that never filled in" },
-  ],
+    // Case matters here: "nan" is a word, "NaN" is a number that never filled in.
+    { id: "unfilled", pattern: "\\{\\{|\\}\\}|\\[object Object\\]|\\bNaN\\b", flags: "gu", why: "a template value that never filled in" },
+  ] as { id: string; pattern: string; flags?: string; why: string }[],
   warn: { max_words: 30, why: "one idea per sentence, under about 30 words" },
 };

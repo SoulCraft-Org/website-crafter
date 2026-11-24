@@ -7,7 +7,7 @@ import { PAGES, WORDS } from "./site";
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const rules = [
-  ...WORDS.block.map((r) => ({ ...r, re: new RegExp(r.pattern, "giu") })),
+  ...WORDS.block.map((r) => ({ ...r, re: new RegExp(r.pattern, r.flags ?? "giu") })),
   ...WORDS.banned.map((w) => ({ id: "banned", why: `"${w}" is on the banned list`, re: new RegExp(`\\b${escape(w)}\\b`, "giu") })),
 ];
 
