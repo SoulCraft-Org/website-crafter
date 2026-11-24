@@ -15,7 +15,8 @@ const { TABS } = await engine('quality/score.mjs');
 const { checkMaps, qualityDefs } = await engine('pages/build.mjs');
 const { configScope, readDocs } = await engine('tools/collect_org.mjs');
 
-const STARTERS = ['templates/quality', 'templates/process'];
+// Every file a site copies: the two config starters, the page tests and the Markdown templates.
+const STARTERS = ['templates'];
 const files = STARTERS.flatMap((dir) => readdirSync(join(ROOT, dir), { recursive: true, withFileTypes: true })
   .filter((e) => e.isFile()).map((e) => relative(ROOT, join(e.parentPath, e.name))));
 
@@ -62,13 +63,14 @@ test('process starter: every step of every map scores a metric on the Quality pa
   }
 }));
 
-test('starters: no dash, home path, private host or reserved name; every relative link resolves', () => {
+test('templates: no dash, home path, private host or reserved name; every relative link resolves', () => {
   for (const f of files) {
     const text = read(f);
     assert.doesNotMatch(text, /[–—]/, `${f}: a dash`);
     assert.doesNotMatch(text, /\/Users\/|~\/|soulcraft\.computer/i, `${f}: a private path or host`);
     assert.doesNotMatch(text.replaceAll('github.com/SoulCraft-Org/', ''), /soul\s*craft/i, `${f}: the reserved name`);
-    for (const [, link] of text.matchAll(/\]\(([^)\s#]+)[^)]*\)/g)) {
+    // Links in Markdown only: a regex in a spec can look like one.
+    for (const [, link] of f.endsWith('.md') ? text.matchAll(/\]\(([^)\s#]+)[^)]*\)/g) : []) {
       if (!/^[a-z]+:/i.test(link)) assert.ok(existsSync(resolve(dirname(join(ROOT, f)), link)), `${f} links ${link}`);
     }
   }

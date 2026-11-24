@@ -1,6 +1,6 @@
 ---
 name: prompt-meshy
-description: How to get a good 3D model from Meshy: the input picture, text and texture prompts, hero or game settings, rigging limits and a style block per site. Read it with the Meshy plugin's meshy-3d-generation skill, which drives the CLI, before any Meshy spend.
+description: "How to get a good 3D model from Meshy: the input picture, text and texture prompts, hero or game settings, rigging limits and a style block per site. Read it with the Meshy plugin's meshy-3d-generation skill, which drives the CLI, before any Meshy spend."
 ---
 
 # Prompting Meshy

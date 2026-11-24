@@ -27,5 +27,6 @@ test('each prompting skill keeps its style block a placeholder, in its own secti
 });
 
 test("no plugin skill names the site the skills came from, or its art direction", () => {
-  for (const name of SKILLS) assert.doesNotMatch(read(`plugin/skills/${name}/SKILL.md`), SITE_TERMS, name);
+  // A link to this repo names its publisher, not a site: leave it out of the check.
+  for (const name of SKILLS) assert.doesNotMatch(read(`plugin/skills/${name}/SKILL.md`).replaceAll('github.com/SoulCraft-Org/', ''), SITE_TERMS, name);
 });

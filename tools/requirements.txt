@@ -1,0 +1,3 @@
+# What tools/check_plugin.py imports beyond the standard library. CI installs it through Git Crafter's ci-standard.yml
+# (pip-requirements in .github/workflows/ci.yml); Dependabot bumps it after the 14-day cooldown.
+PyYAML==6.0.3

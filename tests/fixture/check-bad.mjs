@@ -11,7 +11,7 @@ const RULES = [
   { file: 'budget.spec.ts', title: /shifts no more than/, errors: [/cumulative layout shift/] },
   { file: 'budget.spec.ts', title: /bytes of JavaScript or less/, errors: [/start-up JavaScript, gzip bytes/] },
   { file: 'origin.spec.ts', title: /same-origin requests/, errors: [/reached another origin/] },
-  { file: 'words.spec.ts', title: /words lint/, errors: [/dash: /, /placeholder: /] },
+  { file: 'words.spec.ts', title: /words lint/, errors: [/dash: /, /placeholder: /, /unfilled: /, /banned: /] },
   { file: 'motion.spec.ts', title: /stills everything/, errors: [/running animations/] },
   { file: 'motion.spec.ts', title: /reduced motion/, errors: [/running animations/] },
 ];
@@ -21,7 +21,7 @@ const run = spawnSync('npx', ['playwright', 'test', '-c', 'tests/fixture/playwri
   cwd: ROOT,
   encoding: 'utf8',
   maxBuffer: 64 * 1024 * 1024,
-  env: { ...process.env, SITE_DIR: 'bad', SITE_PAGES: '/', SITE_JS_BUDGET: '64' },
+  env: { ...process.env, SITE_DIR: 'bad', SITE_PAGES: '/', SITE_JS_BUDGET: '64', SITE_BANNED: 'forbiddenword' },
 });
 let report;
 try {

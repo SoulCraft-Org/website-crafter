@@ -11,6 +11,13 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+  # PyYAML, which tools/check_plugin.py parses front matter with.
+  - package-ecosystem: pip
+    directory: /tools
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 14
   # @playwright/test, which the page tests run on in CI.
   - package-ecosystem: npm
     directory: /

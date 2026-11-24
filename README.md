@@ -21,6 +21,8 @@ claude plugin install website-crafter@website-crafter
 | [templates/quality](templates/quality/README.md) | Your site's Quality, Speed and Consumption page: six tabs, with the Pages tab reading your live site |
 | [templates/process](templates/process/README.md) | Your site's Process page: the delivery, deploy and code maps |
 | [templates/tests](templates/tests/README.md) | Four page tests: the start-up budget, same-origin requests, pausable motion and the words lint |
+| [plugin/skills/site-preview](plugin/skills/site-preview/SKILL.md), [stage](plugin/skills/stage/SKILL.md) | Preview the built site page by page, then stage each changed page for the owner and ship it |
+| [templates/page-roles.md](templates/page-roles.md), [art-record.md](templates/art-record.md), [pull-request.md](templates/pull-request.md) | One row per page role, one row per asset, and the pull request a site change opens |
 | [maps/](maps/README.md) and [pack.json](pack.json) | Four Process maps a site adds as a pack: media, stage, reveal and open |
 | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) | The marketplace that lists the plugin |
 | [tools/check_plugin.py](tools/check_plugin.py) | The check that the marketplace, the manifest and each skill agree |

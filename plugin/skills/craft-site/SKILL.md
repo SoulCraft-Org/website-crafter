@@ -1,6 +1,6 @@
 ---
 name: craft-site
-description: The Website Crafter method for building or changing a website with Claude. Use it when you plan a site, add or redesign a page, add a script or motion, or get a change ready to ship. Its six rules cover page roles and signature moves, a start-up JavaScript budget, same-origin requests, motion a pause stills, a words lint, and staging before ship.
+description: "The Website Crafter method for building or changing a website with Claude. Use it when you plan a site, add or redesign a page, add a script or motion, or get a change ready to ship. Its six rules cover page roles and signature moves, a start-up JavaScript budget, same-origin requests, motion a pause stills, a words lint, and staging before ship."
 ---
 
 # Craft a site
