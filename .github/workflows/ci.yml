@@ -30,9 +30,18 @@ jobs:
         tests/**
         maps/**
         pack.json
+        package.json
+        package-lock.json
         **/*.md
         .github/workflows/ci.yml
         .github/dependabot.yml
+      # Only a change to the page tests, the fixture sites or Playwright starts a browser.
+      standard-paths: |
+        templates/tests/**
+        tests/fixture/**
+        package.json
+        package-lock.json
+        .github/workflows/ci.yml
       # The pinned Git Crafter's .nvmrc, for its engine in tests/engine.sh; tests/pins.test.mjs holds the two equal.
       node-version: "26"
       short: |
@@ -41,3 +50,8 @@ jobs:
         bash tools/voice_lint.sh
         # The starters against Git Crafter's engine at the pin above: seconds of work, so the short job on ubuntu-slim.
         bash tests/engine.sh
+      # The page tests on the good fixture site, where every test passes, then on the bad one, where every test must fail.
+      standard: |
+        npx playwright install --with-deps chromium
+        SITE_PAGES=/,/about/ npx playwright test -c tests/fixture/playwright.config.ts
+        node tests/fixture/check-bad.mjs

@@ -1,0 +1,10 @@
+{
+  "name": "website-crafter",
+  "private": true,
+  "type": "module",
+  "description": "The page tests in templates/tests, run against the fixture sites in tests/fixture. CI runs them; see .github/workflows/ci.yml.",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}

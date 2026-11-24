@@ -43,10 +43,12 @@ A change to the site, from one build to private previews, a merge and the live p
 | --- | --- | --- |
 | Build once | Build once per change; every later step reads that build. | `ci.latest_pr_dollars` |
 | Stage | Stage each changed page as a private preview; keep the change small enough for one sitting. | `pull_requests.over_400_lines` |
-| Browser tests | Every page a visitor can open has a browser test that opens it. | `tests.e2e_routes` |
+| Browser tests | Browser tests check what a visitor sees on each page, not how the code works. | `tests.e2e_routes` |
 | Review | The owner saw the previews, and the pull request is reviewed at its head. | `pull_requests.reviewed` |
 | Merge | Merge within minutes of all green. | `pull_requests.green_to_merge_minutes` |
 | Read live | A change is live only when the live page shows it; read it after each deploy. | `deploy.latest_lead_hours` |
+
+Read live scores `deploy.latest_lead_hours`, the hours from merge to the deploy that shipped it. That is a proxy for lead time: it shows the change shipped, not that the live page shows it. Reading the page stays a person's step.
 
 ## Reveal
 
@@ -63,11 +65,11 @@ A page's first seconds, from first paint to its signature move.
 
 ## Open
 
-A site's code, from a private repo to a public one anyone can fork.
+A site's public code, from each change it takes to each contributor it answers.
 
 | Step | Rule | Metric |
 | --- | --- | --- |
-| Export | Every change reaches the public repo by pull request, after the export check. | `pull_requests.commits_via_pr` |
+| Check | Every change reaches the public repo by pull request, after the pre-publish check. | `pull_requests.commits_via_pr` |
 | Intake | Issue forms route each bug and quick fix; the open-repo files say how to help. | `issues.intake_ready` |
 | Pin | Every action is pinned to a full commit SHA that Dependabot bumps. | `actions.pinned_share` |
 | Answer | Each issue closes by a merged fix or a reply within days. | `issues.latest_close_hours` |

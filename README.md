@@ -19,6 +19,7 @@ claude plugin install website-crafter@website-crafter
 | [plugin/skills/craft-site](plugin/skills/craft-site/SKILL.md) | The method: one role and one signature move per page, a start-up budget, same-origin pages, pausable motion, a words lint, stage before ship |
 | [templates/quality](templates/quality/README.md) | Your site's Quality, Speed and Consumption page: six tabs, with the Pages tab reading your live site |
 | [templates/process](templates/process/README.md) | Your site's Process page: the delivery, deploy and code maps |
+| [templates/tests](templates/tests/README.md) | Four page tests: the start-up budget, same-origin requests, pausable motion and the words lint |
 | [maps/](maps/README.md) and [pack.json](pack.json) | Four Process maps a site adds as a pack: media, stage, reveal and open |
 | [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) | The marketplace that lists the plugin |
 | [tools/check_plugin.py](tools/check_plugin.py) | The check that the marketplace, the manifest and each skill agree |
