@@ -2,6 +2,8 @@
 
 Craft your own website with Claude. A plugin teaches Claude the method; starters give your site its page tests, its guard hooks and its Quality and Process pages. Published by [SoulCraft-Org](https://github.com/SoulCraft-Org) under [Apache-2.0](LICENSE).
 
+Spec: [docs/SPEC.md](docs/SPEC.md).
+
 ```mermaid
 flowchart LR
   P[The plugin<br/>craft-site, prompting, preview, stage] --> C[Claude in your site repo]
